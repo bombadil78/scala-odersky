@@ -93,9 +93,9 @@ class HuffmanSuite extends FunSuite {
 
   test("encode() some simple texts") {
     new TestTrees {
-      // val encodeT3 = encode(t3)
-      // assert(encodeT3(simpleText) === simpleCode)
-      // assert(encodeT3(simpleText2) === simpleCode2)
+      val encodeT3 = encode(t3)_
+      assert(encodeT3(simpleText) === simpleCode)
+      assert(encodeT3(simpleText2) === simpleCode2)
     }
   }
 
@@ -110,6 +110,19 @@ class HuffmanSuite extends FunSuite {
   test("decode and encode a very short text should be identity") {
     new TestTrees {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
+    }
+  }
+
+  test("convert()") {
+    new TestTrees {
+      val codeTable: CodeTable = List(('a', List(0, 0)), ('b', List(0, 1)), ('c', List(1)))
+      assert(convert(t3) === codeTable)
+    }
+  }
+
+  test("decodedSecret()") {
+    new TestTrees {
+      println(decodedSecret)
     }
   }
 
