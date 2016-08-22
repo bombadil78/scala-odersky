@@ -64,29 +64,22 @@ object Huffman {
   type Bit = Int
 
   def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
-
-    def decodeIt(currentTree: CodeTree, currentBits: List[Bit]): List[Char] = currentBits match {
-      case List() => {
-        if (!currentTree.isInstanceOf[Leaf]) {
+    def decodeIt(currentTree: CodeTree, currentBits: List[Bit]): List[Char] = currentTree match {
+      case Leaf(c, w) =>
+        if (currentBits.isEmpty)
+          List(c)
+        else
+          c :: decodeIt(tree, currentBits)
+      case Fork(l, r, c, w) =>
+        if (currentBits.isEmpty)
           throw new RuntimeException("Invalid code")
-        } else {
-          val leaf: Leaf = currentTree.asInstanceOf[Leaf]
-          List(leaf.char)
-        }
-      }
-      case x :: xs =>
-        if (currentTree.isInstanceOf[Leaf]) {
-          val leaf: Leaf = currentTree.asInstanceOf[Leaf]
-          leaf.char :: decodeIt(tree, currentBits)
-        } else {
-          val fork: Fork = currentTree.asInstanceOf[Fork]
-          if (x == 0)
-            decodeIt(fork.left, xs)
-          else
-            decodeIt(fork.right, xs)
-        }
+        else if (currentBits.head == 0)
+          decodeIt(l, currentBits.tail)
+        else if (currentBits.head == 1)
+          decodeIt(r, currentBits.tail)
+        else
+          throw new RuntimeException("Invalid bit detected")
     }
-
     decodeIt(tree, bits)
   }
 
@@ -94,7 +87,12 @@ object Huffman {
   val secret: List[Bit] = List(0,0,1,1,1,0,1,0,1,1,1,0,0,1,1,0,1,0,0,1,1,0,1,0,1,1,0,0,1,1,1,1,1,0,1,0,1,1,0,0,0,0,1,0,1,1,1,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,1)
 
   def decodedSecret: List[Char] = ???
+
   def encode(tree: CodeTree)(text: List[Char]): List[Bit] = ???
+
+    // def encodeNext(currentTree: CodeTree, currentText: List[Char]) = ???
+
+
 
   type CodeTable = List[(Char, List[Bit])]
   def codeBits(table: CodeTable)(char: Char): List[Bit] = ???

@@ -38,7 +38,12 @@ class HuffmanSuite extends FunSuite {
         Leaf('c', 2),
         List('a', 'b', 'c'),
         4)
-	}
+
+    val simpleText: List[Char] = List('a', 'a', 'b', 'c', 'c')
+    val simpleCode: List[Bit] = List(0, 0, 0, 0, 0, 1, 1, 1)
+    val simpleText2: List[Char] = List('c', 'c', 'c', 'a')
+    val simpleCode2: List[Bit] = List(1, 1, 1, 0, 0)
+  }
 
   test("weight of a larger tree") {
     new TestTrees {
@@ -65,24 +70,41 @@ class HuffmanSuite extends FunSuite {
     assert(combine(leaflist) === List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
   }
 
+  test("decode() single character") {
+    new TestTrees {
+      assert(decode(t3, List(0, 0)) === List('a'))
+    }
+  }
+
   test("decode() simple code") {
     new TestTrees {
-      val bits: List[Bit] = List(0, 0, 0, 0, 0, 1, 1, 1)
-      assert(decode(t3, bits) === List('a', 'a', 'b', 'c', 'c'))
+      assert(decode(t3, simpleCode) === simpleText)
     }
   }
 
   test("decode() invalid code") {
     new TestTrees {
-      val bits: List[Bit] = List(1, 0)
+      val invalidCode: List[Bit] = List(1, 0)
       intercept[RuntimeException] {
-        decode(t3, bits)
+        decode(t3, invalidCode)
       }
     }
   }
 
-  test("encode() simple text") {
+  test("encode() some simple texts") {
+    new TestTrees {
+      // val encodeT3 = encode(t3)
+      // assert(encodeT3(simpleText) === simpleCode)
+      // assert(encodeT3(simpleText2) === simpleCode2)
+    }
+  }
 
+  test("encode() invalid text") {
+    new TestTrees {
+      intercept[RuntimeException] {
+        encode(t3)(List('z'))
+      }
+    }
   }
 
   test("decode and encode a very short text should be identity") {
