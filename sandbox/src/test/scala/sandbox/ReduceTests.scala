@@ -35,10 +35,33 @@ class ReduceTests extends FunSuite {
     }
   }
 
-  test("reduceLeft() to concat identical strings") {
+  test("reduceLeft() to concat strings") {
     new TestData {
       assert(Reduce.reduceLeft(stringList, zConcat)(concat) === "aabcc")
     }
   }
 
+  test("reduceRight() on empty list returns initial value") {
+    new TestData {
+      assert(Reduce.reduceRight(List(), zSum)(sum) === 0)
+    }
+  }
+
+  test("reduceRight() to sum integers") {
+    new TestData {
+      assert(Reduce.reduceRight(intList, zSum)(sum) === 10)
+    }
+  }
+
+  test("reduceRight() to multiply integers") {
+    new TestData {
+      assert(Reduce.reduceRight(intList, zMulti)(multiply) === 24)
+    }
+  }
+
+  test("reduceRight() to concat strings") {
+    new TestData {
+      assert(Reduce.reduceRight(stringList, zConcat)(concat) === "ccbaa")
+    }
+  }
 }
