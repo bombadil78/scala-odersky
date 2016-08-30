@@ -2,7 +2,7 @@ package sandbox
 
 import org.scalatest.FunSuite
 
-class PackTest extends FunSuite {
+class PackTests extends FunSuite {
 
   trait TestData {
     val list = List("a", "a", "a", "b", "b", "c", "c")

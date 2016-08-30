@@ -11,7 +11,7 @@ class ConcatTests extends FunSuite {
 
   test("concat()") {
     new TestData {
-      assert(Concat.concat(abcd, defg) === (abcd :: defg))
+      assert(Concat.concat(abcd, defg) === (abcd ::: defg))
     }
   }
 }
