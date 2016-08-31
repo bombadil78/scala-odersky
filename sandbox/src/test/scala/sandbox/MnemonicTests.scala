@@ -11,11 +11,11 @@ class MnemonicTests extends FunSuite {
     val yes = Set("YES")
     val noOrOn = Set("NO", "ON")
 
-    val aceOrBadNumber: Int = 223
-    val ottoNumber: Int = 6886
-    val fireNumber: Int = 3473
-    val yesNumber: Int = 937
-    val noOrOnNumber: Int = 66
+    val aceOrBadNumber: String = "223"
+    val ottoNumber: String = "6886"
+    val fireNumber: String = "3473"
+    val yesNumber: String = "937"
+    val noOrOnNumber: String = "66"
 
     val emptyPhone = new Mnemonic(Set())
     val simplePhone = new Mnemonic(aceOrBad ++ otto ++ fire ++ yes ++ noOrOn)
