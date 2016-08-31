@@ -41,7 +41,6 @@ object Anagrams {
     }
   }
 
-  // todo: improve using foldLeft (=> see examples)
   def subtract(x: Occurrences, y: Occurrences): Occurrences = {
 
     val subtractedFromX = for {
@@ -62,5 +61,20 @@ object Anagrams {
     (onlyInX ++ subtractedFromXWithoutZeroOrBelow).toList
   }
 
-  def sentenceAnagrams(sentence: Sentence): List[Sentence] = ???
+  def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
+
+    def sentenceAnagramsByOccurrences(occ: Occurrences): List[Sentence] = {
+      if (occ.isEmpty)
+        List(List())
+      else
+        for {
+          combo <- combinations(occ) if dictionaryByOccurrences.isDefinedAt(occ)
+          word <- dictionaryByOccurrences(combo)
+          otherWords <- sentenceAnagramsByOccurrences(subtract(occ, combo))
+        }
+          yield word :: otherWords
+    }
+
+    sentenceAnagramsByOccurrences(sentenceOccurrences(sentence)) filter(x => (sentenceOccurrences(x) == sentenceOccurrences(sentence)))
+  }
 }
